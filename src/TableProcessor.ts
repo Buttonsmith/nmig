@@ -50,13 +50,13 @@ export const mapDataTypes = (objDataTypesMap: any, mySqlDataType: string): strin
             retVal = 'character varying(255)';
         } else if ('decimal' === strDataType || 'numeric' === strDataType) {
             retVal = `${ objDataTypesMap[strDataType].type }(${ strDataTypeDisplayWidth }`;
-        } else if ('decimal(19,2)' === mySqlDataType || objDataTypesMap[strDataType].mySqlVarLenPgSqlFixedLen) {
-            // Should be converted without a length definition.
-            retVal = increaseOriginalSize ? objDataTypesMap[strDataType].increased_size : objDataTypesMap[strDataType].type;
         } else if ('char(36)' === mySqlDataType && objDataTypesMap[mySqlDataType].type === 'uuid') {
             retVal = objDataTypesMap[mySqlDataType].type;
         } else if ('binary(16)' === mySqlDataType && objDataTypesMap[mySqlDataType].type === 'uuid') {
             retVal = objDataTypesMap[mySqlDataType].type;
+        } else if ('decimal(19,2)' === mySqlDataType || objDataTypesMap[strDataType].mySqlVarLenPgSqlFixedLen) {
+            // Should be converted without a length definition.
+            retVal = increaseOriginalSize ? objDataTypesMap[strDataType].increased_size : objDataTypesMap[strDataType].type;
         } else {
             // Should be converted with a length definition.
             retVal = increaseOriginalSize

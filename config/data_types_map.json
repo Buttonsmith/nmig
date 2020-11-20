@@ -14,7 +14,7 @@
 
     "json" : {
         "increased_size"           : "",
-        "type"                     : "json",
+        "type"                     : "jsonb",
         "mySqlVarLenPgSqlFixedLen" : false
     },
 
@@ -108,6 +108,12 @@
         "mySqlVarLenPgSqlFixedLen" : false
     },
 
+    "char(36)" : {
+        "increased_size"           : "",
+        "type"                     : "uuid",
+        "mySqlVarLenPgSqlFixedLen" : false
+    },
+
     "varchar" : {
         "increased_size"           : "",
         "type"                     : "character varying",
@@ -128,7 +134,7 @@
 
     "datetime" : {
         "increased_size"           : "",
-        "type"                     : "timestamp",
+        "type"                     : "timestamptz",
         "mySqlVarLenPgSqlFixedLen" : false
     },
 
@@ -202,6 +208,12 @@
         "increased_size"           : "",
         "type"                     : "bytea",
         "mySqlVarLenPgSqlFixedLen" : true
+    },
+
+    "binary(16)" : {
+        "increased_size"           : "",
+        "type"                     : "uuid",
+        "mySqlVarLenPgSqlFixedLen" : false
     },
 
     "tinyblob" : {

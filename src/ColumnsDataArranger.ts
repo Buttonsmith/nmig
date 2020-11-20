@@ -19,6 +19,7 @@
  * @author Anatoly Khaytovich <anatolyuss@gmail.com>
  */
 import { Encoding } from './Encoding';
+import Conversion from './Conversion';
 
 /**
  * Defines if given type is one of MySQL spacial types.
@@ -66,15 +67,19 @@ const isNumeric = (type: string): boolean => {
 /**
  * Arranges columns data before loading.
  */
-export default (arrTableColumns: any[], mysqlVersion: string | number, encoding: Encoding): string => {
+export default (conversion: Conversion, tableName: string, mysqlVersion: string | number, encoding: Encoding): string => {
     let strRetVal: string = '';
     const wkbFunc: string = mysqlVersion >= 5.76 ? 'ST_AsWKB' : 'AsWKB';
+
+    const arrTableColumns = conversion._dicTables[tableName].arrTableColumns;
 
     arrTableColumns.forEach((column: any) => {
         const field: string = column.Field;
         const type: string  = column.Type;
 
-        if (isSpacial(type)) {
+        if (type === 'binary(16)') {
+            strRetVal += `UuidFromBin(\`${field}\`) as \`${field}\`,`;
+        } else if (isSpacial(type)) {
             // Apply HEX(ST_AsWKB(...)) due to the issue, described at https://bugs.mysql.com/bug.php?id=69798
             strRetVal += `HEX(${ wkbFunc }(\`${ field }\`)) AS \`${ field }\`,`;
         } else if (isBinary(type)) {
